@@ -7,7 +7,6 @@ const (
 	InvalidReqBody     = "Invalid Request Body"
 	InvalidQUeryParams = "Invalid Query Params"
 	RequiredReqBody    = "Required Request Body Missing"
-	WrongReqBody       = "Wrong Request Body : "
 	STATUSSUCCESS      = "SUCCESS"
 	STATUSFAILED       = "FAILED"
 )

@@ -1,21 +1,21 @@
 package dto
 
 // SuccessDTO - Success Message
-type SuccessDTO struct {
+type ResponseDTO struct {
 	Status  string `json:"status"`
 	Message string `json:"message"`
 }
 
 type ErrorDTO struct {
-	ErrorCode    string `json:"error_code"`
-	ErrorMessage string `json:"error_message"`
+	ErrorCode string `json:"error_code"`
+	ResponseDTO
 }
 type ResponseSubmitData struct {
 	Status string `json:"status"`
 	ID     int64  `json:"id"`
 }
 type ResponseGetRank struct {
-	SuccessDTO
+	ResponseDTO
 	Data *RankData `json:"data,omitempty"`
 }
 type RankData struct {
@@ -26,7 +26,7 @@ type RankData struct {
 }
 
 type ResponseGetTopNRank struct {
-	SuccessDTO
+	ResponseDTO
 	Data *[]GetTopNRank
 }
 

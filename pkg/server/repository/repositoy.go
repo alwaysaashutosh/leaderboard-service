@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/alwaysaashutosh/leaderboard-service/pkg/database"
 	"github.com/alwaysaashutosh/leaderboard-service/pkg/utils/constants"
@@ -28,8 +29,8 @@ func (repository *leaderboardRepository) SubmitData(data dto.RequestSubmitData) 
 
 	entry := database.Leaderboard{
 		UserName: data.UserName,
-		Country:  data.Country,
-		State:    data.State,
+		Country:  strings.ToUpper(data.Country),
+		State:    strings.ToUpper(data.State),
 		Score:    data.Score,
 	}
 	if err := repository.db.Create(&entry).Error; err != nil {
@@ -58,9 +59,9 @@ func (repository *leaderboardRepository) GetRank(data dto.RequestGetRank) (dto.R
 
 	switch data.Scope {
 	case "country":
-		countquery = countquery.Where("country = ?", user.Country)
+		countquery = countquery.Where("country = ?", strings.ToUpper(user.Country))
 	case "state":
-		countquery = countquery.Where("state = ?", user.State)
+		countquery = countquery.Where("state = ?", strings.ToUpper(user.State))
 	}
 
 	if err := countquery.Count(&rank).Error; err != nil {
@@ -68,7 +69,7 @@ func (repository *leaderboardRepository) GetRank(data dto.RequestGetRank) (dto.R
 	}
 
 	return dto.ResponseGetRank{
-		SuccessDTO: dto.SuccessDTO{
+		ResponseDTO: dto.ResponseDTO{
 			Status:  constants.STATUSSUCCESS,
 			Message: "Rank retrieved successfully",
 		},
@@ -94,9 +95,9 @@ func (repository *leaderboardRepository) GetTopRank(data dto.RequestGetTopNRank)
 
 	switch data.Scope {
 	case "country":
-		query = query.Where("country = ?", data.ScopeValue)
+		query = query.Where("country = ?", strings.ToUpper(data.ScopeValue))
 	case "state":
-		query = query.Where("state = ?", data.ScopeValue)
+		query = query.Where("state = ?", strings.ToUpper(data.ScopeValue))
 	}
 
 	if err := query.Select("user_name,score").Scan(&result).Error; err != nil {
@@ -108,9 +109,9 @@ func (repository *leaderboardRepository) GetTopRank(data dto.RequestGetTopNRank)
 	}
 
 	return dto.ResponseGetTopNRank{
-		SuccessDTO: dto.SuccessDTO{
+		ResponseDTO: dto.ResponseDTO{
 			Status:  constants.STATUSSUCCESS,
-			Message: "Rank retrieved successfully",
+			Message: "Rank's retrieved successfully",
 		},
 		Data: &result,
 	}, nil

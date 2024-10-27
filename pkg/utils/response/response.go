@@ -10,39 +10,30 @@ import (
 )
 
 // Return Error After service function called
-func Send500(c *gin.Context, ErrMsg string, err error) {
-	log.Error().Msgf(ErrMsg+": %s", err.Error())
+func Send500(c *gin.Context, err error) {
+	log.Error().Msgf("server error: %v\n", err.Error())
 	c.JSON(http.StatusBadGateway, dto.ErrorDTO{
-		ErrorCode:    constants.Err500,
-		ErrorMessage: ErrMsg,
-	})
-}
-
-// Return Success After service function called
-func Success(c *gin.Context, msg string) {
-	c.JSON(http.StatusOK, dto.SuccessDTO{
-		Message: msg,
+		ErrorCode: constants.Err500,
+		ResponseDTO: dto.ResponseDTO{
+			Status:  constants.STATUSFAILED,
+			Message: err.Error(),
+		},
 	})
 }
 
 // Return Success After service function called
 func SuccessMsg(c *gin.Context, msg interface{}) {
 	c.JSON(http.StatusOK, msg)
-
 }
 
 // / checkjsonbind and validation
-func Send400(c *gin.Context, msg string) {
+func Send400(c *gin.Context, msg string, err string) {
+	log.Error().Msgf("%v : %v\n", msg, err)
 	c.JSON(http.StatusBadRequest, dto.ErrorDTO{
-		ErrorCode:    constants.Err400,
-		ErrorMessage: msg,
+		ErrorCode: constants.Err400,
+		ResponseDTO: dto.ResponseDTO{
+			Status:  constants.STATUSFAILED,
+			Message: msg,
+		},
 	})
-}
-
-// Return Success After service function called
-func SuccessResp(c *gin.Context, resp interface{}) {
-	c.JSON(http.StatusOK, gin.H{
-		"result": resp,
-	})
-
 }

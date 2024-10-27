@@ -1,0 +1,175 @@
+definitions:
+  dto.ErrorDTO:
+    properties:
+      error_code:
+        type: string
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  dto.GetTopNRank:
+    properties:
+      rank:
+        type: integer
+      score:
+        type: number
+      user_name:
+        type: string
+    type: object
+  dto.RankData:
+    properties:
+      rank:
+        type: integer
+      scope:
+        description: '"global", "country", or "state"'
+        type: string
+      score:
+        type: number
+      user_id:
+        type: integer
+    type: object
+  dto.RequestSubmitData:
+    properties:
+      country:
+        type: string
+      score:
+        type: number
+      state:
+        type: string
+      user_name:
+        type: string
+    required:
+    - country
+    - score
+    - state
+    - user_name
+    type: object
+  dto.ResponseGetRank:
+    properties:
+      data:
+        $ref: '#/definitions/dto.RankData'
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  dto.ResponseGetTopNRank:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dto.GetTopNRank'
+        type: array
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  dto.ResponseSubmitData:
+    properties:
+      id:
+        type: integer
+      status:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/get_rank:
+    get:
+      consumes:
+      - application/json
+      description: Fetch the rank of a user within multiple defined scopes.
+      parameters:
+      - enum:
+        - state
+        - country
+        - global
+        in: query
+        name: scope
+        required: true
+        type: string
+      - in: query
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ResponseGetRank'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorDTO'
+      summary: Get Rank for a Specific User
+  /api/v1/list_top_n:
+    get:
+      consumes:
+      - application/json
+      description: Fetch the top ranks of users across multiple defined scopes.
+      parameters:
+      - in: query
+        name: "n"
+        type: integer
+      - enum:
+        - state
+        - country
+        - global
+        in: query
+        name: scope
+        required: true
+        type: string
+      - in: query
+        name: scope_value
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ResponseGetTopNRank'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorDTO'
+      summary: Get Top Rankings Dashboard
+  /api/v1/submit:
+    post:
+      consumes:
+      - application/json
+      description: Submit specific details related to a user.
+      parameters:
+      - description: Request Body
+        in: body
+        name: '{object}'
+        schema:
+          $ref: '#/definitions/dto.RequestSubmitData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ResponseSubmitData'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorDTO'
+      summary: Submit User Data
+swagger: "2.0"

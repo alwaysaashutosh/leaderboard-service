@@ -11,7 +11,6 @@ import (
 	"net/http"
 
 	"github.com/alwaysaashutosh/leaderboard-service/pkg/server/routes"
-	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
 	"github.com/gin-gonic/gin"
@@ -30,7 +29,7 @@ type Config struct {
 }
 
 func Setup(config *Config) *HttpServer {
-	// gin.SetMode(config.Mode)
+	gin.SetMode(config.Mode)
 	handler := gin.New()
 	routes.Setup(handler, config.BasePath)
 	srv.server = &http.Server{
@@ -74,26 +73,4 @@ func (s *HttpServer) ServeAsync() {
 	}
 
 	log.Info().Msg("Server exiting")
-}
-func setServerMode(logLevel string) {
-	switch logLevel {
-	case "debug":
-		zerolog.SetGlobalLevel(zerolog.TraceLevel)
-	case "DEBUG":
-		zerolog.SetGlobalLevel(zerolog.DebugLevel)
-	case "INFO":
-		zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	case "ERROR":
-		zerolog.SetGlobalLevel(zerolog.ErrorLevel)
-	case "FATAL":
-		zerolog.SetGlobalLevel(zerolog.FatalLevel)
-	case "PANIC":
-		zerolog.SetGlobalLevel(zerolog.PanicLevel)
-	case "NO":
-		zerolog.SetGlobalLevel(zerolog.NoLevel)
-	case "DISABLED":
-		zerolog.SetGlobalLevel(zerolog.Disabled)
-	default:
-		zerolog.SetGlobalLevel(zerolog.WarnLevel)
-	}
 }

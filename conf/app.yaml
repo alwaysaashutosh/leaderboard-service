@@ -1,13 +1,13 @@
 database:
   name: test
-  host: localhost
+  host: localhost # containerIP or servicename if on private network
   port: 5432
   idleConn: 2
   openConn: 10
   username: "postgres"
   password: "password"
   logLevel: "" # can be "silent", "error", "warn", "info"
-  autoMigrate: false
+  autoMigrate: false #if enabled will create tables in your database .
 
 server:
   port: 8080
