@@ -1,0 +1,19 @@
+database:
+  name: test
+  host: localhost
+  port: 5432
+  idleConn: 2
+  openConn: 10
+  username: "postgres"
+  password: "password"
+  logLevel: "" # can be "silent", "error", "warn", "info"
+  autoMigrate: false
+
+server:
+  port: 8080
+  basePath: /leaderboard-service
+  mode: "" # modes : debug,release,test
+
+logging:
+  level: "DEBUG" #"TRACE" "DEBUG" "INFO" "ERROR" "FATAL" "PANIC" "NO" "DISABLED"
+
