@@ -21,7 +21,7 @@ Follow these steps to set up and run the Leaderboard-Service.
 
 2. **Update the Configuration File**
 
-   - Edit the configuration file at conf/app.yaml as needed.
+   - Edit the configuration file at ```conf/app.yaml``` as needed.
    - To automate table creation, set ```autoMigrate = true```, which will enable GORM auto-migration to create tables from the GORM model schema.
 
 3. **Build and Run the Service**
