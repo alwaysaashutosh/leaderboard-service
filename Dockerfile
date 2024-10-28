@@ -2,7 +2,7 @@
 FROM golang:1.22-alpine3.20 AS builder
 WORKDIR /go/src/github.com/alwaysaashutosh/leaderboard-service
 COPY . .
-RUN go build -o bin/ ./cmd/leaderboard-service
+RUN go build -o bin/ .
 
 # Executable image
 FROM alpine:3.20.2 AS leaderboard-service
