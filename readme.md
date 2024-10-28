@@ -1,6 +1,6 @@
 # Leaderboard-Service
 
-The Leaderboard-Service is a backend application designed for efficient user ranking management, handling submissions, and tracking ranks across various scopes. It supports a range of API endpoints that allow for updating, and querying user ranks and top scores.
+The Leaderboard-Service is a backend application designed for efficient user ranking management, handling submissions, and tracking ranks across various scopes. It supports a range of API endpoints that allows to do the operations.
 
 ## Getting Started
 
